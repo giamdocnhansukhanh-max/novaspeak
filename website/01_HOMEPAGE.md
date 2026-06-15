@@ -127,6 +127,16 @@ Hotline:
 0707 062 350
 
 Email:
-[nguyenvantankhanh@gmail.com](mailto:nguyenvantankhanh@gmail.com)
+nguyenvantankhanh@gmail.com
 
 Confidence Opens Doors. English Opens The World.
+---
+
+Status:
+Draft V1
+
+Last Updated:
+2026
+
+Next Phase:
+Content Optimization → UI Mapping → Implementation
