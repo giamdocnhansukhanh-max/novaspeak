@@ -4,74 +4,113 @@
 
 Logo
 
-Navigation
+Menu:
 
-CTA
+* Trang chủ
+* Về NovaSpeak
+* Chương trình học
+* Kiểm tra trình độ
+* Cộng đồng
+* Liên hệ
+
+CTA:
+Đăng Ký
+
+---
 
 ## 02. Hero
 
-Headline
+Component:
 
-Subheadline
+* Headline
+* Slogan
+* Description
+* Primary CTA
+* Secondary CTA
+* Hero Image
 
-Description
+---
 
-Buttons
+## 03. About NovaSpeak
 
-Visual
+Component:
 
-## 03. About
+* Title
+* Story
+* Supporting Image
 
-Title
+---
 
-Content
+## 04. Nova Method™
 
-Image
+Component:
 
-## 04. Program
+* Method Statement
+* Principles
+* Illustration
 
-Program Cards
+---
 
-CTA
+## 05. Learning Programs
 
-## 05. Placement Test
+Component:
 
-Title
+* Program Cards
+* Program Description
+* CTA
 
-Description
+---
 
-Form
+## 06. Placement Test
 
-## 06. Success Stories
+Component:
 
-Stories
+* Title
+* Description
+* Registration Form
 
-Images
+---
 
-## 07. Founder Story
+## 07. Student Success Stories
 
-Title
+Component:
 
-Story
+* Testimonial Cards
+* Student Images
 
-CTA
+---
 
-## 08. Community
+## 08. Founder Story
 
-Activities
+Component:
 
-Gallery
+* Founder Story
+* Founder Image
 
-## 09. Final CTA
+---
 
-Title
+## 09. Nova Community
 
-Buttons
+Component:
 
-## 10. Footer
+* Activities
+* Gallery
 
-Contact
+---
 
-Links
+## 10. Final CTA
 
-Social
+Component:
+
+* CTA Text
+* CTA Button
+
+---
+
+## 11. Footer
+
+Component:
+
+* Contact
+* Social
+* Copyright
