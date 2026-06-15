@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NovaSpeak - Dám Nói. Dám Sống.</title>
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/novaspeak/manifest.json">
+    <meta name="theme-color" content="#2563EB">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="NovaSpeak">
+    <link rel="apple-touch-icon" href="/novaspeak/icons/icon-192x192.png">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -279,6 +284,7 @@
         .loading-progress { width: 0%; height: 100%; background: white; border-radius: 2px; animation: loading 2s ease forwards; }
         @keyframes loading { 0% { width: 0%; } 100% { width: 100%; } }
     </style>
+<base target="_blank">
 </head>
 <body>
 
@@ -1274,19 +1280,11 @@
 
         // ===== SERVICE WORKER =====
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('data:text/javascript;base64,' + btoa(`
-                self.addEventListener('install', e => {
-                    e.waitUntil(self.skipWaiting());
-                });
-                self.addEventListener('activate', e => {
-                    e.waitUntil(self.clients.claim());
-                });
-                self.addEventListener('fetch', e => {
-                    e.respondWith(fetch(e.request).catch(() => {
-                        return new Response('Offline - NovaSpeak');
-                    }));
-                });
-            `)).then(() => console.log('SW registered'));
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/novaspeak/service-worker.js')
+                    .then((reg) => console.log('SW registered:', reg.scope))
+                    .catch((err) => console.log('SW failed:', err));
+            });
         }
     </script>
 </body>
