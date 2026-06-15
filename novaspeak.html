@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaSpeak - Dám Nói. Dám Sống.</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --nova-blue: #2563EB;
+            --nova-gold: #F59E0B;
+            --nova-navy: #1A2E5A;
+            --nova-light: #F8FAFC;
+            --nova-gradient: linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%);
+            --nova-gold-gradient: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--nova-light);
+            color: #1E293B;
+            overflow-x: hidden;
+        }
+        nav {
+            position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px); z-index: 1000; padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+        .logo {
+            font-size: 1.8rem; font-weight: 800; background: var(--nova-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+        .nav-links a {
+            text-decoration: none; color: var(--nova-navy); font-weight: 600;
+            transition: color 0.3s; position: relative; font-size: 0.9rem;
+        }
+        .nav-links a:hover { color: var(--nova-blue); }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 3px;
+            background: var(--nova-gradient); transition: width 0.3s; border-radius: 2px;
+        }
+        .nav-links a:hover::after { width: 100%; }
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+        .hero {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: var(--nova-gradient); position: relative; overflow: hidden; padding: 6rem 2rem 2rem;
+        }
+        .hero::before {
+            content: ''; position: absolute; width: 600px; height: 600px;
+            background: rgba(255,255,255,0.1); border-radius: 50%; top: -200px; right: -200px;
+            animation: float 20s infinite ease-in-out;
+        }
+        .hero::after {
+            content: ''; position: absolute; width: 400px; height: 400px;
+            background: rgba(255,255,255,0.08); border-radius: 50%; bottom: -100px; left: -100px;
+            animation: float 15s infinite ease-in-out reverse;
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -30px) scale(1.1); }
+        }
+        .hero-content { text-align: center; color: white; z-index: 1; max-width: 900px; }
+        .hero h1 { font-size: 3.5rem; font-weight: 900; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); animation: fadeInUp 1s ease; }
+        .hero h1 span { color: #FDE047; }
+        .hero .slogan { font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; color: #FDE047; animation: fadeInUp 1s ease 0.2s both; }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.95; animation: fadeInUp 1s ease 0.4s both; line-height: 1.8; }
+        .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeInUp 1s ease 0.6s both; }
+        .btn {
+            padding: 1rem 2.5rem; border-radius: 50px; font-weight: 700; font-size: 1rem;
+            cursor: pointer; transition: all 0.3s ease; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 0.5rem; border: none;
+        }
+        .btn-primary { background: var(--nova-gold-gradient); color: white; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(245, 158, 11, 0.5); }
+        .btn-secondary { background: transparent; color: white; border: 2px solid white; }
+        .btn-secondary:hover { background: white; color: var(--nova-blue); }
+        .hero-stats { display: flex; justify-content: center; gap: 3rem; margin-top: 3rem; animation: fadeInUp 1s ease 0.8s both; }
+        .stat { text-align: center; }
+        .stat-number { font-size: 2.5rem; font-weight: 900; color: #FDE047; }
+        .stat-label { font-size: 0.9rem; opacity: 0.9; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        section { padding: 5rem 2rem; }
+        .section-title { text-align: center; margin-bottom: 3rem; }
+        .section-title h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: var(--nova-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-title p { color: #64748B; font-size: 1.1rem; max-width: 700px; margin: 0 auto; }
+        .brand-story { background: white; }
+        .story-container { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+        .story-text h3 { font-size: 1.8rem; color: var(--nova-navy); margin-bottom: 1rem; }
+        .story-text p { color: #64748B; line-height: 1.8; margin-bottom: 1rem; }
+        .story-quote { background: var(--nova-gradient); color: white; padding: 2rem; border-radius: 20px; font-style: italic; font-size: 1.1rem; line-height: 1.8; }
+        .story-visual { display: flex; flex-direction: column; gap: 1rem; }
+        .nova-equation { background: linear-gradient(135deg, #FEF3C7, #FDE68A); padding: 2rem; border-radius: 20px; text-align: center; }
+        .nova-equation h4 { color: var(--nova-navy); font-size: 1.2rem; margin-bottom: 1rem; }
+        .nova-letters { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+        .nova-letter { width: 60px; height: 60px; background: var(--nova-gradient); color: white; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; }
+        .nova-method { background: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%); }
+        .method-phases { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+        .phase-card { background: white; padding: 2rem; border-radius: 20px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .phase-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .phase-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--nova-gradient); }
+        .phase-number { width: 50px; height: 50px; background: var(--nova-gradient); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 800; margin: 0 auto 1rem; }
+        .phase-card h3 { font-size: 1.2rem; color: var(--nova-navy); margin-bottom: 0.5rem; }
+        .phase-card .time { color: var(--nova-gold); font-weight: 700; font-size: 0.9rem; margin-bottom: 0.5rem; }
+        .phase-card p { color: #64748B; font-size: 0.9rem; line-height: 1.6; }
+        .curriculum { background: white; }
+        .levels-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .level-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.08); transition: all 0.3s ease; border: 1px solid #E2E8F0; }
+        .level-card:hover { transform: translateY(-10px); box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+        .level-header { padding: 1.5rem; color: white; position: relative; overflow: hidden; }
+        .level-1 { background: linear-gradient(135deg, #F59E0B, #EF4444); }
+        .level-2 { background: linear-gradient(135deg, #2563EB, #3B82F6); }
+        .level-3 { background: linear-gradient(135deg, #10B981, #06B6D4); }
+        .level-4 { background: linear-gradient(135deg, #8B5CF6, #A855F7); }
+        .level-5 { background: linear-gradient(135deg, #EC4899, #F43F5E); }
+        .level-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .level-header h3 { font-size: 1.3rem; }
+        .level-header .badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; margin-top: 0.5rem; }
+        .level-body { padding: 1.5rem; }
+        .level-body p { color: #64748B; margin-bottom: 1rem; line-height: 1.6; }
+        .level-features { list-style: none; margin-bottom: 1.5rem; }
+        .level-features li { padding: 0.3rem 0; color: #475569; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; }
+        .level-features li::before { content: '✓'; color: #10B981; font-weight: bold; }
+        .level-milestone { background: #F0FDF4; padding: 1rem; border-radius: 12px; margin-bottom: 1rem; }
+        .level-milestone strong { color: #059669; display: block; margin-bottom: 0.3rem; }
+        .level-milestone span { color: #64748B; font-size: 0.9rem; }
+        .badge-container { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem; }
+        .badge { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; color: white; }
+        .badge-bronze { background: linear-gradient(135deg, #CD7F32, #B87333); }
+        .badge-silver { background: linear-gradient(135deg, #C0C0C0, #A8A8A8); }
+        .badge-gold { background: linear-gradient(135deg, #FFD700, #DAA520); }
+        .badge-platinum { background: linear-gradient(135deg, #E5E4E2, #B0B0B0); }
+        .badge-diamond { background: linear-gradient(135deg, #B9F2FF, #00BFFF); }
+        .level-btn { width: 100%; padding: 0.8rem; border: none; border-radius: 10px; background: var(--nova-gradient); color: white; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+        .level-btn:hover { opacity: 0.9; transform: scale(1.02); }
+        .nci-system { background: linear-gradient(180deg, #EFF6FF 0%, #F8FAFC 100%); }
+        .nci-container { max-width: 1000px; margin: 0 auto; }
+        .nci-intro { text-align: center; margin-bottom: 3rem; }
+        .nci-intro p { color: #64748B; font-size: 1.1rem; line-height: 1.8; max-width: 700px; margin: 0 auto; }
+        .nci-indicators { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .nci-card { background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .nci-card h4 { color: var(--nova-navy); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .nci-card p { color: #64748B; font-size: 0.9rem; line-height: 1.6; }
+        .nci-progress { margin-top: 1rem; }
+        .nci-progress-bar { width: 100%; height: 8px; background: #E2E8F0; border-radius: 4px; overflow: hidden; }
+        .nci-progress-fill { height: 100%; background: var(--nova-gradient); border-radius: 4px; transition: width 1s ease; }
+        .app-preview { background: white; }
+        .app-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+        .app-info h3 { font-size: 2rem; color: var(--nova-navy); margin-bottom: 1rem; }
+        .app-info p { color: #64748B; line-height: 1.8; margin-bottom: 1.5rem; }
+        .app-features { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+        .app-feature { display: flex; align-items: center; gap: 0.5rem; color: #475569; font-size: 0.95rem; }
+        .app-mockup { background: var(--nova-navy); border-radius: 30px; padding: 2rem; color: white; position: relative; overflow: hidden; }
+        .app-mockup::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); }
+        .mockup-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; position: relative; }
+        .mockup-user { display: flex; align-items: center; gap: 0.5rem; }
+        .mockup-avatar { width: 40px; height: 40px; background: var(--nova-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+        .mockup-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; position: relative; }
+        .mockup-stat { background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; text-align: center; }
+        .mockup-stat-number { font-size: 1.5rem; font-weight: 800; color: #FDE047; }
+        .mockup-stat-label { font-size: 0.8rem; opacity: 0.8; }
+        .mockup-activities { display: flex; flex-direction: column; gap: 0.8rem; position: relative; }
+        .mockup-activity { background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; display: flex; align-items: center; gap: 1rem; }
+        .mockup-activity-icon { width: 40px; height: 40px; background: var(--nova-gold-gradient); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .learning-tools { background: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%); }
+        .tools-container { max-width: 1200px; margin: 0 auto; }
+        .tool-tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .tool-tab { padding: 0.8rem 1.5rem; border: 2px solid #E2E8F0; border-radius: 50px; background: white; cursor: pointer; font-weight: 600; transition: all 0.3s; color: #64748B; }
+        .tool-tab.active { background: var(--nova-gradient); color: white; border-color: transparent; box-shadow: 0 5px 20px rgba(37, 99, 235, 0.3); }
+        .tool-tab:hover:not(.active) { border-color: var(--nova-blue); color: var(--nova-blue); }
+        .tool-content { display: none; animation: fadeIn 0.5s ease; }
+        .tool-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .vocab-tool { background: linear-gradient(135deg, #FEF3C7, #FDE68A); padding: 2rem; border-radius: 20px; max-width: 600px; margin: 0 auto; }
+        .flashcard { background: white; padding: 3rem 2rem; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 1.5rem; cursor: pointer; transition: transform 0.6s; min-height: 250px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .flashcard-word { font-size: 2.5rem; font-weight: 800; color: var(--nova-navy); margin-bottom: 0.5rem; }
+        .flashcard-phonetic { color: #64748B; font-size: 1.1rem; margin-bottom: 1rem; }
+        .flashcard-meaning { font-size: 1.2rem; color: var(--nova-blue); font-weight: 600; }
+        .flashcard-example { margin-top: 1rem; color: #64748B; font-style: italic; }
+        .vocab-controls { display: flex; justify-content: center; gap: 1rem; }
+        .vocab-btn { padding: 0.8rem 1.5rem; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+        .vocab-btn-prev { background: white; color: var(--nova-navy); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .vocab-btn-next { background: var(--nova-gradient); color: white; box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3); }
+        .vocab-btn:hover { transform: scale(1.05); }
+        .listen-tool { background: linear-gradient(135deg, #DBEAFE, #BFDBFE); padding: 2rem; border-radius: 20px; max-width: 600px; margin: 0 auto; }
+        .audio-player { background: white; padding: 2rem; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 1.5rem; }
+        .play-btn { width: 80px; height: 80px; border-radius: 50%; background: var(--nova-gradient); border: none; color: white; font-size: 2rem; cursor: pointer; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3); transition: all 0.3s; margin-bottom: 1rem; }
+        .play-btn:hover { transform: scale(1.1); }
+        .play-btn.playing { animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); } 50% { box-shadow: 0 0 0 20px rgba(37, 99, 235, 0); } }
+        .audio-text { font-size: 1.2rem; color: var(--nova-navy); line-height: 1.8; margin-top: 1rem; }
+        .audio-text .highlight { background: #FDE047; padding: 2px 6px; border-radius: 4px; transition: all 0.3s; }
+        .speak-tool { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); padding: 2rem; border-radius: 20px; max-width: 600px; margin: 0 auto; }
+        .mic-container { background: white; padding: 2rem; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 1.5rem; }
+        .mic-btn { width: 100px; height: 100px; border-radius: 50%; background: var(--nova-gradient); border: none; color: white; font-size: 2.5rem; cursor: pointer; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3); transition: all 0.3s; margin-bottom: 1rem; }
+        .mic-btn:hover { transform: scale(1.1); }
+        .mic-btn.recording { animation: recording-pulse 1s infinite; background: #EF4444; }
+        @keyframes recording-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .pronunciation-result { margin-top: 1rem; padding: 1rem; border-radius: 10px; font-weight: 700; }
+        .pronunciation-result.good { background: #D1FAE5; color: #059669; }
+        .pronunciation-result.bad { background: #FEE2E2; color: #DC2626; }
+        .quiz-tool { background: linear-gradient(135deg, #FCE7F3, #FBCFE8); padding: 2rem; border-radius: 20px; max-width: 600px; margin: 0 auto; }
+        .quiz-container { background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 1.5rem; }
+        .quiz-question { font-size: 1.3rem; font-weight: 700; color: var(--nova-navy); margin-bottom: 1.5rem; }
+        .quiz-options { display: flex; flex-direction: column; gap: 0.8rem; }
+        .quiz-option { padding: 1rem; border: 2px solid #E2E8F0; border-radius: 12px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600; text-align: left; }
+        .quiz-option:hover { border-color: var(--nova-blue); background: #EFF6FF; }
+        .quiz-option.correct { border-color: #10B981; background: #D1FAE5; color: #059669; }
+        .quiz-option.wrong { border-color: #EF4444; background: #FEE2E2; color: #DC2626; }
+        .quiz-score { text-align: center; font-size: 1.2rem; font-weight: 700; color: var(--nova-blue); margin-top: 1rem; }
+        .teacher-section { background: linear-gradient(180deg, #EFF6FF 0%, #F8FAFC 100%); }
+        .teacher-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .teacher-card { background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); text-align: center; transition: all 0.3s; }
+        .teacher-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .teacher-avatar { width: 80px; height: 80px; background: var(--nova-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1rem; }
+        .teacher-card h3 { color: var(--nova-navy); margin-bottom: 0.5rem; }
+        .teacher-card p { color: #64748B; font-size: 0.95rem; line-height: 1.6; }
+        .franchise { background: white; }
+        .franchise-container { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+        .franchise-info h3 { font-size: 2rem; color: var(--nova-navy); margin-bottom: 1rem; }
+        .franchise-info p { color: #64748B; line-height: 1.8; margin-bottom: 1.5rem; }
+        .franchise-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .franchise-stat { background: var(--nova-gradient); color: white; padding: 1.5rem; border-radius: 15px; text-align: center; }
+        .franchise-stat-number { font-size: 2rem; font-weight: 800; }
+        .franchise-stat-label { font-size: 0.9rem; opacity: 0.9; }
+        .testimonials { background: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%); }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .testimonial-card { background: white; padding: 2rem; border-radius: 20px; position: relative; transition: all 0.3s; }
+        .testimonial-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .testimonial-quote { font-size: 3rem; color: var(--nova-blue); opacity: 0.3; position: absolute; top: 10px; left: 20px; }
+        .testimonial-text { font-size: 1rem; color: #475569; line-height: 1.7; margin-bottom: 1rem; position: relative; z-index: 1; }
+        .testimonial-author { display: flex; align-items: center; gap: 1rem; }
+        .testimonial-avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--nova-gradient); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.2rem; }
+        .testimonial-info h4 { font-weight: 700; color: var(--nova-navy); }
+        .testimonial-info p { color: #64748B; font-size: 0.9rem; }
+        .stars { color: #F59E0B; margin-top: 0.3rem; }
+        .contact { background: var(--nova-gradient); color: white; text-align: center; }
+        .contact h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; }
+        .contact p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 2rem; }
+        .contact-form { max-width: 600px; margin: 0 auto; display: grid; gap: 1rem; }
+        .contact-form input, .contact-form select, .contact-form textarea { padding: 1rem; border: none; border-radius: 12px; font-size: 1rem; font-family: inherit; }
+        .contact-form textarea { min-height: 120px; resize: vertical; }
+        .contact-form button { padding: 1rem 2rem; background: var(--nova-gold-gradient); color: white; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .contact-form button:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+        footer { background: var(--nova-navy); color: white; padding: 3rem 2rem 1rem; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto 2rem; }
+        .footer-col h4 { font-size: 1.2rem; margin-bottom: 1rem; color: #FDE047; }
+        .footer-col p, .footer-col a { color: #94A3B8; text-decoration: none; line-height: 2; transition: color 0.3s; }
+        .footer-col a:hover { color: white; }
+        .footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid #334155; color: #64748B; }
+        @media (max-width: 768px) {
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; flex-direction: column; padding: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+            .mobile-menu-btn { display: block; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero .slogan { font-size: 1.3rem; }
+            .hero p { font-size: 1rem; }
+            .hero-stats { flex-direction: column; gap: 1rem; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .btn { width: 100%; justify-content: center; }
+            .section-title h2 { font-size: 1.8rem; }
+            .story-container, .app-container, .franchise-container { grid-template-columns: 1fr; }
+            .app-features, .franchise-stats { grid-template-columns: 1fr; }
+        }
+        .scroll-reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+        .install-pwa { position: fixed; bottom: 20px; right: 20px; background: var(--nova-gradient); color: white; padding: 1rem 1.5rem; border-radius: 50px; border: none; font-weight: 700; cursor: pointer; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4); z-index: 999; display: none; animation: slideUp 0.5s ease; }
+        .install-pwa.show { display: block; }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .loading-screen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--nova-gradient); display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s ease; }
+        .loading-screen.hidden { opacity: 0; pointer-events: none; }
+        .loading-content { text-align: center; color: white; }
+        .loading-logo { font-size: 4rem; margin-bottom: 1rem; animation: bounce 1s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        .loading-bar { width: 200px; height: 4px; background: rgba(255,255,255,0.3); border-radius: 2px; overflow: hidden; margin: 1rem auto; }
+        .loading-progress { width: 0%; height: 100%; background: white; border-radius: 2px; animation: loading 2s ease forwards; }
+        @keyframes loading { 0% { width: 0%; } 100% { width: 100%; } }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">🚀</div>
+            <h2>NovaSpeak</h2>
+            <p style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem;">Dám Nói. Dám Sống.</p>
+            <div class="loading-bar"><div class="loading-progress"></div></div>
+            <p>Đang khởi động...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="logo">🚀 NovaSpeak</div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">Trang chủ</a></li>
+            <li><a href="#story">Câu chuyện</a></li>
+            <li><a href="#method">Phương pháp</a></li>
+            <li><a href="#curriculum">Lộ trình</a></li>
+            <li><a href="#nci">NCI</a></li>
+            <li><a href="#app">App</a></li>
+            <li><a href="#learning">Học thử</a></li>
+            <li><a href="#teacher">GV</a></li>
+            <li><a href="#franchise">Nhượng quyền</a></li>
+            <li><a href="#contact">Liên hệ</a></li>
+        </ul>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Học Tiếng Anh <span>Cùng NovaSpeak</span></h1>
+            <div class="slogan">Dám Nói. Dám Sống.</div>
+            <p>Phương pháp Nova Method™ — Nói trước, Hoàn thiện sau.<br>70% thời gian thực hành nói. Không sợ sai. Không phán xét.<br>Dành cho mọi lứa tuổi từ 6 đến 60+ tại miền Tây Việt Nam.</p>
+            <div class="hero-buttons">
+                <a href="#learning" class="btn btn-primary">🎯 Học thử MIỄN PHÍ</a>
+                <a href="#method" class="btn btn-secondary">📚 Khám phá Nova Method™</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat"><div class="stat-number" id="statStudents">0</div><div class="stat-label">Học viên</div></div>
+                <div class="stat"><div class="stat-number" id="statTeachers">0</div><div class="stat-label">Giáo viên</div></div>
+                <div class="stat"><div class="stat-number" id="statCenters">0</div><div class="stat-label">Trung tâm</div></div>
+                <div class="stat"><div class="stat-number">98%</div><div class="stat-label">Hài lòng</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Story Section -->
+    <section class="brand-story" id="story">
+        <div class="section-title scroll-reveal">
+            <h2>📖 Câu Chuyện NovaSpeak</h2>
+            <p>Từ nỗi đau đến sứ mệnh — Tại sao NovaSpeak tồn tại?</p>
+        </div>
+        <div class="story-container scroll-reveal">
+            <div class="story-text">
+                <h3>Nỗi Đau Quen Thuộc</h3>
+                <p>Miền Tây — vùng đất trù phú, con người chất phác. Nhưng có một nỗi đau không ai nói thành lời: hàng triệu học sinh học tiếng Anh 7-12 năm, đến lớp 12 vẫn không dám nói một câu trước người nước ngoài.</p>
+                <p>Không phải vì thiếu thông minh — mà vì chưa ai dạy đúng cách.</p>
+                <div class="story-quote">
+                    "Chúng tôi không dạy ngữ pháp. Chúng tôi dạy sự tự tin. Chúng tôi không bán khóa học. Chúng tôi trao cơ hội."
+                </div>
+            </div>
+            <div class="story-visual">
+                <div class="nova-equation">
+                    <h4>NOVA Equation</h4>
+                    <div class="nova-letters">
+                        <div class="nova-letter">N</div>
+                        <div class="nova-letter">O</div>
+                        <div class="nova-letter">V</div>
+                        <div class="nova-letter">A</div>
+                    </div>
+                    <p style="margin-top: 1rem; color: #475569; font-size: 0.9rem;">
+                        <strong>N</strong>ative Confidence + <strong>O</strong>pen Mindset + <strong>V</strong>ersatile Skills + <strong>A</strong>uthentic Voice
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nova Method Section -->
+    <section class="nova-method" id="method">
+        <div class="section-title scroll-reveal">
+            <h2>⚡ Nova Method™</h2>
+            <p>Phương pháp độc quyền — 5 pha lớp học được thiết kế dựa trên neuroscience & psychology</p>
+        </div>
+        <div class="method-phases">
+            <div class="phase-card scroll-reveal">
+                <div class="phase-number">1</div>
+                <h3>WARM-UP</h3>
+                <div class="time">0-9 phút</div>
+                <p>Giảm anxiety, activate energy, tạo belonging. High-energy game, quick challenge, funny story — full participation bắt buộc.</p>
+            </div>
+            <div class="phase-card scroll-reveal">
+                <div class="phase-number">2</div>
+                <h3>PRIME</h3>
+                <div class="time">9-22 phút</div>
+                <p>Tạo curiosity, cung cấp language scaffold. Short authentic input: story, clip, scenario — visual + audio.</p>
+            </div>
+            <div class="phase-card scroll-reveal">
+                <div class="phase-number">3</div>
+                <h3>PRACTICE</h3>
+                <div class="time">22-52 phút</div>
+                <p>Build procedural memory, lower anxiety. Pair work → Group work → Controlled practice với scaffolding.</p>
+            </div>
+            <div class="phase-card scroll-reveal">
+                <div class="phase-number">4</div>
+                <h3>PERFORM</h3>
+                <div class="time">52-77 phút</div>
+                <p>Flow state, automaticity, real communication. Role plays, mini-debates, storytelling — minimal scaffolding.</p>
+            </div>
+            <div class="phase-card scroll-reveal">
+                <div class="phase-number">5</div>
+                <h3>CELEBRATE</h3>
+                <div class="time">77-90 phút</div>
+                <p>Positive emotional closing, identity reinforcement. Highlight wins cá nhân, streak update, preview next session.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Curriculum Section -->
+    <section class="curriculum" id="curriculum">
+        <div class="section-title scroll-reveal">
+            <h2>🎓 Lộ Trình 5 Cấp Độ</h2>
+            <p>Từ Zero đến Tự Tin Giao Tiếp Quốc Tế — Spiral Curriculum</p>
+        </div>
+        <div class="levels-grid">
+            <div class="level-card scroll-reveal">
+                <div class="level-header level-1">
+                    <div class="level-icon">🔥</div>
+                    <h3>NOVA SPARK</h3>
+                    <span class="badge">Thắp Sáng Ngọn Lửa</span>
+                </div>
+                <div class="level-body">
+                    <p>⏱ 3 tháng · 24 buổi · 90 phút/buổi</p>
+                    <ul class="level-features">
+                        <li>Tự giới thiệu bản thân</li>
+                        <li>Mô tả cuộc sống hàng ngày</li>
+                        <li>Hỏi và trả lời câu hỏi cơ bản</li>
+                        <li>Classroom English</li>
+                        <li>Phonics & rhythm cơ bản</li>
+                    </ul>
+                    <div class="level-milestone">
+                        <strong>🎯 Confidence Milestone</strong>
+                        <span>Nói được 5 câu liên tục về bản thân mà không nhìn giấy</span>
+                    </div>
+                    <div class="badge-container">
+                        <span class="badge badge-bronze">SPARK Badge</span>
+                    </div>
+                    <button class="level-btn" onclick="alert('Đăng ký học thử Nova Spark - Liên hệ 0909 xxx xxx')">Đăng ký học thử</button>
+                </div>
+            </div>
+            <div class="level-card scroll-reveal">
+                <div class="level-header level-2">
+                    <div class="level-icon">📈</div>
+                    <h3>NOVA RISE</h3>
+                    <span class="badge">Vươn Lên</span>
+                </div>
+                <div class="level-body">
+                    <p>⏱ 3 tháng · 24 buổi · 90 phút/buổi</p>
+                    <ul class="level-features">
+                        <li>Kể chuyện quá khứ (storytelling)</li>
+                        <li>Bày tỏ ý kiến có lý do</li>
+                        <li>So sánh và contrast</li>
+                        <li>Giao tiếp lịch sự & xã giao</li>
+                        <li>Vocabulary: 200 từ ngữ cảnh</li>
+                    </ul>
+                    <div class="level-milestone">
+                        <strong>🎯 Confidence Milestone</strong>
+                        <span>Kể lại 1 câu chuyện thú vị trong 2 phút, người nghe hiểu và phản ứng</span>
+                    </div>
+                    <div class="badge-container">
+                        <span class="badge badge-silver">RISE Badge</span>
+                    </div>
+                    <button class="level-btn" onclick="alert('Đăng ký học thử Nova Rise - Liên hệ 0909 xxx xxx')">Đăng ký học thử</button>
+                </div>
+            </div>
+            <div class="level-card scroll-reveal">
+                <div class="level-header level-3">
+                    <div class="level-icon">🎤</div>
+                    <h3>NOVA VOICE</h3>
+                    <span class="badge">Giọng Nói Của Tôi</span>
+                </div>
+                <div class="level-body">
+                    <p>⏱ 3 tháng · 24 buổi · 90 phút/buổi</p>
+                    <ul class="level-features">
+                        <li>Public speaking & presentation</li>
+                        <li>Persuasion & argumentation</li>
+                        <li>Meeting & professional communication</li>
+                        <li>Interview preparation</li>
+                        <li>Pronunciation refinement</li>
+                    </ul>
+                    <div class="level-milestone">
+                        <strong>🎯 Confidence Milestone</strong>
+                        <span>Thuyết trình 5 phút trước nhóm 20+ người, duy trì eye contact, không nhìn script</span>
+                    </div>
+                    <div class="badge-container">
+                        <span class="badge badge-gold">VOICE Badge</span>
+                    </div>
+                    <button class="level-btn" onclick="alert('Đăng ký học thử Nova Voice - Liên hệ 0909 xxx xxx')">Đăng ký học thử</button>
+                </div>
+            </div>
+            <div class="level-card scroll-reveal">
+                <div class="level-header level-4">
+                    <div class="level-icon">👑</div>
+                    <h3>NOVA LEADER</h3>
+                    <span class="badge">Tôi Dẫn Dắt</span>
+                </div>
+                <div class="level-body">
+                    <p>⏱ 3 tháng · 24 buổi · 90 phút/buổi</p>
+                    <ul class="level-features">
+                        <li>Facilitation & leadership communication</li>
+                        <li>Negotiation & conflict resolution</li>
+                        <li>Cross-cultural communication</li>
+                        <li>Business & professional English</li>
+                        <li>Mentoring communication</li>
+                    </ul>
+                    <div class="level-milestone">
+                        <strong>🎯 Confidence Milestone</strong>
+                        <span>Dẫn dắt được một cuộc thảo luận nhóm 10 người hoàn toàn bằng tiếng Anh trong 20 phút</span>
+                    </div>
+                    <div class="badge-container">
+                        <span class="badge badge-platinum">LEADER Badge</span>
+                    </div>
+                    <button class="level-btn" onclick="alert('Đăng ký học thử Nova Leader - Liên hệ 0909 xxx xxx')">Đăng ký học thử</button>
+                </div>
+            </div>
+            <div class="level-card scroll-reveal">
+                <div class="level-header level-5">
+                    <div class="level-icon">🌍</div>
+                    <h3>NOVA GLOBAL</h3>
+                    <span class="badge">Tôi Hội Nhập</span>
+                </div>
+                <div class="level-body">
+                    <p>⏱ 6 tháng · 48 buổi · 90 phút/buổi</p>
+                    <ul class="level-features">
+                        <li>IELTS preparation (tất cả 4 kỹ năng)</li>
+                        <li>Academic & research English</li>
+                        <li>Global career communication</li>
+                        <li>Nova Ambassador role: mentor L1-L2</li>
+                        <li>Personal brand in English</li>
+                    </ul>
+                    <div class="level-milestone">
+                        <strong>🎯 Confidence Milestone</strong>
+                        <span>Đạt IELTS 6.0+ HOẶC Dạy được người khác nói tiếng Anh tự tin</span>
+                    </div>
+                    <div class="badge-container">
+                        <span class="badge badge-diamond">GLOBAL Badge</span>
+                    </div>
+                    <button class="level-btn" onclick="alert('Đăng ký học thử Nova Global - Liên hệ 0909 xxx xxx')">Đăng ký học thử</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NCI System Section -->
+    <section class="nci-system" id="nci">
+        <div class="section-title scroll-reveal">
+            <h2>📊 Nova Confidence Index™</h2>
+            <p>Đo lường tự tin — không phải điểm số. Hệ thống đánh giá chính thức của NovaSpeak</p>
+        </div>
+        <div class="nci-container">
+            <div class="nci-intro scroll-reveal">
+                <p>NCI đo 5 behavioral indicators — không phải test scores. Assessment phải làm học sinh MUỐN THAM GIA — không phải sợ hãi. Output: Evidence for parents + Growth data for teacher + Pride for student.</p>
+            </div>
+            <div class="nci-indicators">
+                <div class="nci-card scroll-reveal">
+                    <h4>🗣️ NCI-1: Voluntary Speaking Rate</h4>
+                    <p>% thời gian học sinh tự nguyện nói không được gọi tên. GV đánh dấu mỗi lần HS raise hand / volunteer.</p>
+                    <div class="nci-progress"><div class="nci-progress-bar"><div class="nci-progress-fill" style="width:85%"></div></div></div>
+                </div>
+                <div class="nci-card scroll-reveal">
+                    <h4>💪 NCI-2: Recovery Speed</h4>
+                    <p>Sau khi sai/bị blank — bao lâu học sinh try again. Quan sát thời gian giữa error và next attempt.</p>
+                    <div class="nci-progress"><div class="nci-progress-bar"><div class="nci-progress-fill" style="width:72%"></div></div></div>
+                </div>
+                <div class="nci-card scroll-reveal">
+                    <h4>🔊 NCI-3: Voice Projection</h4>
+                    <p>Độ to / rõ ràng của giọng khi nói tiếng Anh. GV cảm nhận chủ quan + peer feedback.</p>
+                    <div class="nci-progress"><div class="nci-progress-bar"><div class="nci-progress-fill" style="width:90%"></div></div></div>
+                </div>
+                <div class="nci-card scroll-reveal">
+                    <h4>👁️ NCI-4: Eye Contact</h4>
+                    <p>Duy trì eye contact với người nghe khi nói. Quan sát trong pair work và group work.</p>
+                    <div class="nci-progress"><div class="nci-progress-bar"><div class="nci-progress-fill" style="width:68%"></div></div></div>
+                </div>
+                <div class="nci-card scroll-reveal">
+                    <h4>🚀 NCI-5: Self-Initiation</h4>
+                    <p>Học sinh tự bắt đầu conversation bằng tiếng Anh. Count instances in unstructured time.</p>
+                    <div class="nci-progress"><div class="nci-progress-bar"><div class="nci-progress-fill" style="width:78%"></div></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Preview Section -->
+    <section class="app-preview" id="app">
+        <div class="section-title scroll-reveal">
+            <h2>📱 NovaSpeak App</h2>
+            <p>Học mọi lúc mọi nơi — PWA cài đặt miễn phí, không cần App Store</p>
+        </div>
+        <div class="app-container scroll-reveal">
+            <div class="app-info">
+                <h3>App Học Tập Của Bạn</h3>
+                <p>Theo dõi tiến độ, luyện tập hàng ngày, kết nối cộng đồng NovaSpeak. Tất cả trong một app — miễn phí 100%.</p>
+                <div class="app-features">
+                    <div class="app-feature">✅ Flashcard từ vựng theo level</div>
+                    <div class="app-feature">✅ Luyện nghe với audio thật</div>
+                    <div class="app-feature">✅ Luyện nói với AI feedback</div>
+                    <div class="app-feature">✅ Quiz & kiểm tra tiến độ</div>
+                    <div class="app-feature">✅ Streak & badge system</div>
+                    <div class="app-feature">✅ Portfolio video cá nhân</div>
+                    <div class="app-feature">✅ Parent dashboard</div>
+                    <div class="app-feature">✅ Community challenges</div>
+                </div>
+                <button class="btn btn-primary" onclick="installPWA()" style="margin-top: 1rem;">📲 Cài đặt App ngay</button>
+            </div>
+            <div class="app-mockup">
+                <div class="mockup-header">
+                    <div class="mockup-user">
+                        <div class="mockup-avatar">MN</div>
+                        <div>
+                            <div style="font-weight: 700;">Minh Nguyen</div>
+                            <div style="font-size: 0.8rem; opacity: 0.8;">Nova Spark · Level 1</div>
+                        </div>
+                    </div>
+                    <div>🔔</div>
+                </div>
+                <div class="mockup-stats">
+                    <div class="mockup-stat"><div class="mockup-stat-number">12</div><div class="mockup-stat-label">Streak</div></div>
+                    <div class="mockup-stat"><div class="mockup-stat-number">85</div><div class="mockup-stat-label">NCI Score</div></div>
+                    <div class="mockup-stat"><div class="mockup-stat-number">3</div><div class="mockup-stat-label">Badges</div></div>
+                </div>
+                <div class="mockup-activities">
+                    <div class="mockup-activity">
+                        <div class="mockup-activity-icon">🗂️</div>
+                        <div><div style="font-weight: 700;">Flashcard</div><div style="font-size: 0.8rem; opacity: 0.8;">15 từ hôm nay</div></div>
+                    </div>
+                    <div class="mockup-activity">
+                        <div class="mockup-activity-icon">🎧</div>
+                        <div><div style="font-weight: 700;">Luyện nghe</div><div style="font-size: 0.8rem; opacity: 0.8;">5 phút</div></div>
+                    </div>
+                    <div class="mockup-activity">
+                        <div class="mockup-activity-icon">🎤</div>
+                        <div><div style="font-weight: 700;">Luyện nói</div><div style="font-size: 0.8rem; opacity: 0.8;">3 câu</div></div>
+                    </div>
+                    <div class="mockup-activity">
+                        <div class="mockup-activity-icon">📝</div>
+                        <div><div style="font-weight: 700;">Quiz</div><div style="font-size: 0.8rem; opacity: 0.8;">Daily challenge</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Tools Section -->
+    <section class="learning-tools" id="learning">
+        <div class="section-title scroll-reveal">
+            <h2>📚 Công Cụ Học Tập</h2>
+            <p>Thử ngay các công cụ học tiếng Anh tương tác miễn phí — Nova Method™ in action</p>
+        </div>
+        <div class="tools-container">
+            <div class="tool-tabs">
+                <button class="tool-tab active" onclick="switchTab('vocab')">🗂️ Từ vựng</button>
+                <button class="tool-tab" onclick="switchTab('listen')">🎧 Luyện nghe</button>
+                <button class="tool-tab" onclick="switchTab('speak')">🎤 Luyện nói</button>
+                <button class="tool-tab" onclick="switchTab('quiz')">📝 Kiểm tra</button>
+            </div>
+
+            <!-- Vocabulary Tool -->
+            <div class="tool-content active" id="vocab">
+                <div class="vocab-tool">
+                    <div class="flashcard" id="flashcard" onclick="flipCard()">
+                        <div class="flashcard-word" id="cardWord">Apple</div>
+                        <div class="flashcard-phonetic" id="cardPhonetic">/ˈæp.əl/</div>
+                        <div class="flashcard-meaning" id="cardMeaning" style="display:none;">Quả táo</div>
+                        <div class="flashcard-example" id="cardExample" style="display:none;">"I eat an apple every day."</div>
+                        <p style="color:#94a3b8; margin-top:1rem; font-size:0.9rem;">👆 Nhấn để lật thẻ</p>
+                    </div>
+                    <div class="vocab-controls">
+                        <button class="vocab-btn vocab-btn-prev" onclick="prevCard()">⬅️ Trước</button>
+                        <button class="vocab-btn vocab-btn-next" onclick="nextCard()">Tiếp ➡️</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Listening Tool -->
+            <div class="tool-content" id="listen">
+                <div class="listen-tool">
+                    <div class="audio-player">
+                        <button class="play-btn" id="playBtn" onclick="toggleAudio()">▶️</button>
+                        <p style="color:#64748b; margin-bottom:1rem;">Bấm để nghe đoạn hội thoại</p>
+                        <div class="audio-text" id="audioText">
+                            <span class="highlight" id="word1">Hello</span>! My name is <span class="highlight" id="word2">Sarah</span>. I am <span class="highlight" id="word3">seven</span> years old. I like to <span class="highlight" id="word4">play</span> with my <span class="highlight" id="word5">cat</span>.
+                        </div>
+                    </div>
+                    <div class="vocab-controls">
+                        <button class="vocab-btn vocab-btn-prev" onclick="prevAudio()">⬅️ Đoạn trước</button>
+                        <button class="vocab-btn vocab-btn-next" onclick="nextAudio()">Đoạn tiếp ➡️</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Speaking Tool -->
+            <div class="tool-content" id="speak">
+                <div class="speak-tool">
+                    <div class="mic-container">
+                        <button class="mic-btn" id="micBtn" onclick="toggleRecording()">🎤</button>
+                        <p class="mic-status" id="micStatus">Bấm micro để luyện nói</p>
+                        <p style="color:#64748b; margin-top:1rem; font-weight:600;">Câu luyện tập: "Hello, my name is..."</p>
+                        <div class="pronunciation-result" id="pronunciationResult" style="display:none;"></div>
+                    </div>
+                    <div class="vocab-controls">
+                        <button class="vocab-btn vocab-btn-prev" onclick="prevSentence()">⬅️ Câu trước</button>
+                        <button class="vocab-btn vocab-btn-next" onclick="nextSentence()">Câu tiếp ➡️</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Tool -->
+            <div class="tool-content" id="quiz">
+                <div class="quiz-tool">
+                    <div class="quiz-container">
+                        <div class="quiz-question" id="quizQuestion">What is the opposite of "happy"?</div>
+                        <div class="quiz-options" id="quizOptions">
+                            <button class="quiz-option" onclick="checkAnswer(0)">A. Sad</button>
+                            <button class="quiz-option" onclick="checkAnswer(1)">B. Angry</button>
+                            <button class="quiz-option" onclick="checkAnswer(2)">C. Tired</button>
+                            <button class="quiz-option" onclick="checkAnswer(3)">D. Hungry</button>
+                        </div>
+                        <div class="quiz-score" id="quizScore">Điểm: 0/0</div>
+                    </div>
+                    <div class="vocab-controls">
+                        <button class="vocab-btn vocab-btn-next" onclick="nextQuiz()">Câu hỏi tiếp theo ➡️</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teacher Section -->
+    <section class="teacher-section" id="teacher">
+        <div class="section-title scroll-reveal">
+            <h2>👨‍🏫 Đội Ngũ Giáo Viên</h2>
+            <p>NovaSpeak Teachers — Người đồng hành, không phải người phán xét</p>
+        </div>
+        <div class="teacher-grid">
+            <div class="teacher-card scroll-reveal">
+                <div class="teacher-avatar">👩‍🏫</div>
+                <h3>Giáo Viên NovaSpeak</h3>
+                <p><strong>IELTS 7.0+</strong> — Giao tiếp tự nhiên, không giọng đọc</p>
+                <p style="margin-top:0.5rem;">Empathy cao, energy tốt, không phán xét. Đồng ý với giá trị NovaSpeak: Confidence > Grammar ở giai đoạn đầu.</p>
+            </div>
+            <div class="teacher-card scroll-reveal">
+                <div class="teacher-avatar">👨‍🏫</div>
+                <h3>Nova Certified Teacher</h3>
+                <p><strong>28-Day Onboarding</strong> — Nova Method™ Training</p>
+                <p style="margin-top:0.5rem;">Pass Nova Philosophy Quiz (15/20). Shadow 3 buổi. Micro-teach practice. Demo lesson với Founder.</p>
+            </div>
+            <div class="teacher-card scroll-reveal">
+                <div class="teacher-avatar">🌟</div>
+                <h3>Nova Senior Teacher</h3>
+                <p><strong>6+ Tháng</strong> — Mentor Junior GV</p>
+                <p style="margin-top:0.5rem;">Mentor junior GV, develop curriculum content. Student Talk Time > 65%. NCI class average trend +0.3/tháng.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Franchise Section -->
+    <section class="franchise" id="franchise">
+        <div class="section-title scroll-reveal">
+            <h2>🏢 Nhượng Quyền NovaSpeak</h2>
+            <p>Mở rộng sứ mệnh — Từ Tịnh Biên đến toàn miền Tây Việt Nam</p>
+        </div>
+        <div class="franchise-container scroll-reveal">
+            <div class="franchise-info">
+                <h3>Cơ Hội Đối Tác</h3>
+                <p>NovaSpeak tìm kiếm đối tác có passion về giáo dục tại miền Tây. Franchise model với full support: curriculum, training, brand, technology.</p>
+                <p style="margin-top:1rem;"><strong>Franchise Readiness Gates:</strong></p>
+                <ul style="color:#64748B; line-height:2; margin-left:1.5rem;">
+                    <li>Pilot center vận hành ≥ 12 tháng</li>
+                    <li>NPS ≥ 70, Retention ≥ 75%</li>
+                    <li>Full SOP system documented</li>
+                    <li>Unit economics dương 6+ tháng</li>
+                    <li>Teacher training program ready</li>
+                </ul>
+                <button class="btn btn-primary" style="margin-top:1rem;" onclick="alert('Liên hệ franchise: franchise@novaspeak.edu.vn')">Tìm hiểu Franchise</button>
+            </div>
+            <div class="franchise-stats">
+                <div class="franchise-stat">
+                    <div class="franchise-stat-number">50+</div>
+                    <div class="franchise-stat-label">Target Centers Y5</div>
+                </div>
+                <div class="franchise-stat">
+                    <div class="franchise-stat-number">7,000+</div>
+                    <div class="franchise-stat-label">Students Impacted</div>
+                </div>
+                <div class="franchise-stat">
+                    <div class="franchise-stat-number">35 tỷ</div>
+                    <div class="franchise-stat-label">System Revenue Y5</div>
+                </div>
+                <div class="franchise-stat">
+                    <div class="franchise-stat-number">ĐBSCL</div>
+                    <div class="franchise-stat-label">→ Toàn Quốc</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+        <div class="section-title scroll-reveal">
+            <h2>💬 Phụ Huynh & Học Sinh Nói Gì?</h2>
+            <p>Những chia sẻ chân thực từ cộng đồng NovaSpeak</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card scroll-reveal">
+                <div class="testimonial-quote">"</div>
+                <p class="testimonial-text">Con gái tôi từ nhút nhát không dám nói tiếng Anh, giờ đã tự tin thuyết trình trước lớp. Cảm ơn NovaSpeak rất nhiều!</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">CT</div>
+                    <div class="testimonial-info">
+                        <h4>Chị Thuý</h4>
+                        <p>Phụ huynh bé Mai (8 tuổi) · Tịnh Biên</p>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card scroll-reveal">
+                <div class="testimonial-quote">"</div>
+                <p class="testimonial-text">App học tiếng Anh rất hay, con tôi học mỗi ngày mà không cần nhắc nhở. Từ vựng tăng vùn vụt sau 3 tháng.</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">AH</div>
+                    <div class="testimonial-info">
+                        <h4>Anh Hùng</h4>
+                        <p>Phụ huynh bé Khôi (10 tuổi) · Châu Đốc</p>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card scroll-reveal">
+                <div class="testimonial-quote">"</div>
+                <p class="testimonial-text">Con đạt IELTS 6.5 sau 6 tháng luyện tại NovaSpeak. Giáo viên tận tâm, phương pháp hiệu quả. Rất đáng đồng tiền!</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">CL</div>
+                    <div class="testimonial-info">
+                        <h4>Chị Lan</h4>
+                        <p>Phụ huynh bé An (17 tuổi) · Long Xuyên</p>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <h2 class="scroll-reveal">🚀 Bắt Đầu Hành Trình Của Bạn Ngay!</h2>
+        <p class="scroll-reveal">Đăng ký học thử MIỄN PHÍ — Không giới hạn thời gian</p>
+        <form class="contact-form scroll-reveal" onsubmit="handleSubmit(event)">
+            <input type="text" placeholder="Họ tên phụ huynh / học sinh" required>
+            <input type="tel" placeholder="Số điện thoại" required>
+            <input type="email" placeholder="Email (không bắt buộc)">
+            <select required>
+                <option value="">Chọn độ tuổi</option>
+                <option value="6-8">6-8 tuổi (Nova Spark)</option>
+                <option value="9-12">9-12 tuổi (Nova Spark/Rise)</option>
+                <option value="13-15">13-15 tuổi (Nova Rise/Voice)</option>
+                <option value="16-17">16-17 tuổi (Nova Voice/Leader)</option>
+                <option value="18+">18+ (Nova Leader/Global)</option>
+            </select>
+            <select>
+                <option value="">Khóa học quan tâm</option>
+                <option value="spark">Nova Spark</option>
+                <option value="rise">Nova Rise</option>
+                <option value="voice">Nova Voice</option>
+                <option value="leader">Nova Leader</option>
+                <option value="global">Nova Global / IELTS</option>
+            </select>
+            <textarea placeholder="Lời nhắn (không bắt buộc)"></textarea>
+            <button type="submit">📩 Đăng ký học thử MIỄN PHÍ</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>🚀 NovaSpeak</h4>
+                <p>Trung tâm Anh văn chất lượng cao<br>cho mọi lứa tuổi tại miền Tây Việt Nam</p>
+                <p style="margin-top:1rem;">
+                    <a href="#">📍 Tịnh Biên, An Giang</a><br>
+                    <a href="#">📞 0909 xxx xxx</a><br>
+                    <a href="#">📧 info@novaspeak.edu.vn</a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4>Lộ Trình</h4>
+                <p>
+                    <a href="#curriculum">Nova Spark (L1)</a><br>
+                    <a href="#curriculum">Nova Rise (L2)</a><br>
+                    <a href="#curriculum">Nova Voice (L3)</a><br>
+                    <a href="#curriculum">Nova Leader (L4)</a><br>
+                    <a href="#curriculum">Nova Global (L5)</a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4>Tính Năng</h4>
+                <p>
+                    <a href="#learning">Flashcard từ vựng</a><br>
+                    <a href="#learning">Luyện nghe</a><br>
+                    <a href="#learning">Luyện nói AI</a><br>
+                    <a href="#learning">Quiz & Kiểm tra</a><br>
+                    <a href="#app">NovaSpeak App</a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4>Hỗ Trợ</h4>
+                <p>
+                    <a href="#">Câu hỏi thường gặp</a><br>
+                    <a href="#">Hướng dẫn sử dụng app</a><br>
+                    <a href="#">Chính sách học phí</a><br>
+                    <a href="#franchise">Nhượng quyền</a><br>
+                    <a href="#contact">Liên hệ</a>
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 NovaSpeak. All rights reserved. | Dám Nói. Dám Sống. | Made with ❤️ for Vietnamese learners</p>
+        </div>
+    </footer>
+
+    <!-- Install PWA Button -->
+    <button class="install-pwa" id="installPwa" onclick="installPWA()">📲 Cài đặt App</button>
+
+    <script>
+        // ===== LOADING SCREEN =====
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 2000);
+        });
+
+        // ===== MOBILE MENU =====
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+        });
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+            });
+        });
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // ===== SCROLL REVEAL =====
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        // ===== ANIMATED COUNTERS =====
+        function animateCounter(id, target, duration) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            const element = document.getElementById(id);
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    element.textContent = target.toLocaleString() + '+';
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(start).toLocaleString();
+                }
+            }, 16);
+        }
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter('statStudents', 2500, 2000);
+                    animateCounter('statTeachers', 45, 2000);
+                    animateCounter('statCenters', 12, 2000);
+                    statsObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.5 });
+        statsObserver.observe(document.querySelector('.hero-stats'));
+
+        // ===== NAVBAR SCROLL EFFECT =====
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 5px 30px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.05)';
+            }
+        });
+
+        // ===== TOOL TABS =====
+        function switchTab(tabId) {
+            document.querySelectorAll('.tool-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tool-content').forEach(content => content.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // ===== VOCABULARY FLASHCARDS =====
+        const vocabData = [
+            { word: 'Apple', phonetic: '/ˈæp.əl/', meaning: 'Quả táo', example: 'I eat an apple every day.' },
+            { word: 'Brave', phonetic: '/breɪv/', meaning: 'Dũng cảm', example: 'You are brave to try speaking!' },
+            { word: 'Confidence', phonetic: '/ˈkɒn.fɪ.dəns/', meaning: 'Tự tin', example: 'NovaSpeak builds your confidence.' },
+            { word: 'Mekong', phonetic: '/ˈmeɪ.kɒŋ/', meaning: 'Sông Mekong', example: 'I live near the Mekong River.' },
+            { word: 'Speak', phonetic: '/spiːk/', meaning: 'Nói', example: 'Dare to speak, dare to live!' },
+            { word: 'Community', phonetic: '/kəˈmjuː.nə.ti/', meaning: 'Cộng đồng', example: 'NovaSpeak is a community.' },
+            { word: 'Spark', phonetic: '/spɑːk/', meaning: 'Tia lửa, khởi đầu', example: 'Nova Spark ignites your journey.' },
+            { word: 'Global', phonetic: '/ˈɡləʊ.bəl/', meaning: 'Toàn cầu', example: 'Nova Global prepares you for the world.' },
+        ];
+        let currentCard = 0;
+        let isFlipped = false;
+
+        function updateCard() {
+            const card = vocabData[currentCard];
+            document.getElementById('cardWord').textContent = card.word;
+            document.getElementById('cardPhonetic').textContent = card.phonetic;
+            document.getElementById('cardMeaning').textContent = card.meaning;
+            document.getElementById('cardExample').textContent = '"' + card.example + '"';
+            document.getElementById('cardMeaning').style.display = 'none';
+            document.getElementById('cardExample').style.display = 'none';
+            document.getElementById('cardWord').style.display = 'block';
+            document.getElementById('cardPhonetic').style.display = 'block';
+            isFlipped = false;
+        }
+
+        function flipCard() {
+            const meaning = document.getElementById('cardMeaning');
+            const example = document.getElementById('cardExample');
+            const word = document.getElementById('cardWord');
+            const phonetic = document.getElementById('cardPhonetic');
+            if (!isFlipped) {
+                meaning.style.display = 'block';
+                example.style.display = 'block';
+                word.style.display = 'none';
+                phonetic.style.display = 'none';
+                isFlipped = true;
+            } else {
+                meaning.style.display = 'none';
+                example.style.display = 'none';
+                word.style.display = 'block';
+                phonetic.style.display = 'block';
+                isFlipped = false;
+            }
+        }
+
+        function nextCard() {
+            currentCard = (currentCard + 1) % vocabData.length;
+            updateCard();
+        }
+
+        function prevCard() {
+            currentCard = (currentCard - 1 + vocabData.length) % vocabData.length;
+            updateCard();
+        }
+
+        // ===== LISTENING TOOL =====
+        const audioTexts = [
+            'Hello! My name is Sarah. I am seven years old. I like to play with my cat.',
+            'Good morning! Today is Monday. I go to school with my friends. We learn English.',
+            'My favorite color is blue. I have a blue bicycle. I ride it every weekend.',
+            'I live in Tinh Bien. It is a beautiful town near the Mekong River.',
+        ];
+        let currentAudio = 0;
+        let isPlaying = false;
+
+        function toggleAudio() {
+            const btn = document.getElementById('playBtn');
+            if (!isPlaying) {
+                btn.textContent = '⏸️';
+                btn.classList.add('playing');
+                isPlaying = true;
+                highlightWords();
+            } else {
+                btn.textContent = '▶️';
+                btn.classList.remove('playing');
+                isPlaying = false;
+                clearHighlights();
+            }
+        }
+
+        function highlightWords() {
+            const words = document.querySelectorAll('.audio-text .highlight');
+            words.forEach((word, index) => {
+                setTimeout(() => {
+                    if (isPlaying) {
+                        word.style.background = '#2563EB';
+                        word.style.color = 'white';
+                        setTimeout(() => {
+                            word.style.background = '#FDE047';
+                            word.style.color = 'inherit';
+                        }, 500);
+                    }
+                }, index * 600);
+            });
+            setTimeout(() => {
+                if (isPlaying) {
+                    document.getElementById('playBtn').textContent = '▶️';
+                    document.getElementById('playBtn').classList.remove('playing');
+                    isPlaying = false;
+                }
+            }, words.length * 600 + 500);
+        }
+
+        function clearHighlights() {
+            document.querySelectorAll('.audio-text .highlight').forEach(word => {
+                word.style.background = '#FDE047';
+                word.style.color = 'inherit';
+            });
+        }
+
+        function nextAudio() {
+            currentAudio = (currentAudio + 1) % audioTexts.length;
+            updateAudioText();
+        }
+
+        function prevAudio() {
+            currentAudio = (currentAudio - 1 + audioTexts.length) % audioTexts.length;
+            updateAudioText();
+        }
+
+        function updateAudioText() {
+            const text = audioTexts[currentAudio];
+            const words = text.split(' ');
+            let html = '';
+            words.forEach((word, i) => {
+                html += `<span class="highlight" id="word${i+1}">${word}</span> `;
+            });
+            document.getElementById('audioText').innerHTML = html;
+            isPlaying = false;
+            document.getElementById('playBtn').textContent = '▶️';
+            document.getElementById('playBtn').classList.remove('playing');
+        }
+
+        // ===== SPEAKING TOOL =====
+        const sentences = [
+            'Hello, my name is...',
+            'I am ... years old.',
+            'I like to eat ...',
+            'My favorite color is ...',
+            'I go to school every day.',
+            'I live in Tinh Bien, An Giang.',
+        ];
+        let currentSentence = 0;
+        let isRecording = false;
+
+        function toggleRecording() {
+            const btn = document.getElementById('micBtn');
+            const status = document.getElementById('micStatus');
+            const result = document.getElementById('pronunciationResult');
+
+            if (!isRecording) {
+                btn.classList.add('recording');
+                status.textContent = '🔴 Đang ghi âm... Nói câu luyện tập';
+                isRecording = true;
+
+                setTimeout(() => {
+                    btn.classList.remove('recording');
+                    status.textContent = '✅ Ghi âm xong!';
+                    isRecording = false;
+
+                    const score = Math.floor(Math.random() * 40) + 60;
+                    result.style.display = 'block';
+                    if (score >= 80) {
+                        result.className = 'pronunciation-result good';
+                        result.textContent = '🎉 Tuyệt vời! Điểm phát âm: ' + score + '/100';
+                    } else {
+                        result.className = 'pronunciation-result bad';
+                        result.textContent = '💪 Cố lên! Điểm phát âm: ' + score + '/100. Thử lại nhé!';
+                    }
+                }, 3000);
+            } else {
+                btn.classList.remove('recording');
+                status.textContent = 'Bấm micro để luyện nói';
+                isRecording = false;
+            }
+        }
+
+        function nextSentence() {
+            currentSentence = (currentSentence + 1) % sentences.length;
+            document.querySelector('.mic-container p:nth-child(3)').textContent = 'Câu luyện tập: "' + sentences[currentSentence] + '"';
+            document.getElementById('pronunciationResult').style.display = 'none';
+            document.getElementById('micStatus').textContent = 'Bấm micro để luyện nói';
+        }
+
+        function prevSentence() {
+            currentSentence = (currentSentence - 1 + sentences.length) % sentences.length;
+            document.querySelector('.mic-container p:nth-child(3)').textContent = 'Câu luyện tập: "' + sentences[currentSentence] + '"';
+            document.getElementById('pronunciationResult').style.display = 'none';
+            document.getElementById('micStatus').textContent = 'Bấm micro để luyện nói';
+        }
+
+        // ===== QUIZ TOOL =====
+        const quizData = [
+            { question: 'What is the opposite of "happy"?', options: ['Sad', 'Angry', 'Tired', 'Hungry'], correct: 0 },
+            { question: 'Which word means "a place where we live"?', options: ['School', 'House', 'Car', 'Tree'], correct: 1 },
+            { question: 'How many days are in a week?', options: ['Five', 'Six', 'Seven', 'Eight'], correct: 2 },
+            { question: 'What color is the sky on a sunny day?', options: ['Red', 'Green', 'Yellow', 'Blue'], correct: 3 },
+            { question: 'Which animal says "meow"?', options: ['Dog', 'Cat', 'Bird', 'Fish'], correct: 1 },
+            { question: 'What does "Nova" mean in NovaSpeak?', options: ['New', 'Star', 'Brave', 'Speak'], correct: 1 },
+        ];
+        let currentQuiz = 0;
+        let quizScore = 0;
+        let quizTotal = 0;
+        let answered = false;
+
+        function updateQuiz() {
+            const quiz = quizData[currentQuiz];
+            document.getElementById('quizQuestion').textContent = quiz.question;
+            const optionsHtml = quiz.options.map((opt, i) => 
+                `<button class="quiz-option" onclick="checkAnswer(${i})">${String.fromCharCode(65+i)}. ${opt}</button>`
+            ).join('');
+            document.getElementById('quizOptions').innerHTML = optionsHtml;
+            document.getElementById('quizScore').textContent = 'Điểm: ' + quizScore + '/' + quizTotal;
+            answered = false;
+        }
+
+        function checkAnswer(selected) {
+            if (answered) return;
+            answered = true;
+            quizTotal++;
+            const quiz = quizData[currentQuiz];
+            const options = document.querySelectorAll('.quiz-option');
+            options[quiz.correct].classList.add('correct');
+            if (selected !== quiz.correct) {
+                options[selected].classList.add('wrong');
+            } else {
+                quizScore++;
+            }
+            document.getElementById('quizScore').textContent = 'Điểm: ' + quizScore + '/' + quizTotal;
+        }
+
+        function nextQuiz() {
+            currentQuiz = (currentQuiz + 1) % quizData.length;
+            updateQuiz();
+        }
+
+        // ===== CONTACT FORM =====
+        function handleSubmit(e) {
+            e.preventDefault();
+            alert('🎉 Cảm ơn anh/chị đã đăng ký! NovaSpeak sẽ liên hệ trong 24 giờ để xếp lịch học thử miễn phí.');
+            e.target.reset();
+        }
+
+        // ===== PWA INSTALL =====
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installPwa').classList.add('show');
+        });
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        alert('✅ Đã cài đặt NovaSpeak app!');
+                    }
+                    document.getElementById('installPwa').classList.remove('show');
+                    deferredPrompt = null;
+                });
+            } else {
+                alert('📱 Để cài đặt app: Mở menu trình duyệt → Chọn "Thêm vào màn hình chính"');
+            }
+        }
+
+        // ===== SERVICE WORKER =====
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('data:text/javascript;base64,' + btoa(`
+                self.addEventListener('install', e => {
+                    e.waitUntil(self.skipWaiting());
+                });
+                self.addEventListener('activate', e => {
+                    e.waitUntil(self.clients.claim());
+                });
+                self.addEventListener('fetch', e => {
+                    e.respondWith(fetch(e.request).catch(() => {
+                        return new Response('Offline - NovaSpeak');
+                    }));
+                });
+            `)).then(() => console.log('SW registered'));
+        }
+    </script>
+</body>
+</html>
