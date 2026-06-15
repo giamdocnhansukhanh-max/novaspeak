@@ -1,22 +1,30 @@
 {
   "name": "NovaSpeak - Dám Nói. Dám Sống.",
   "short_name": "NovaSpeak",
-  "description": "Học tiếng Anh với Nova Method™ - Phương pháp độc quyền cho người miền Tây Việt Nam",
-  "start_url": "/",
+  "description": "Học tiếng Anh với phương pháp Nova Method™",
+  "start_url": "/novaspeak/",
+  "scope": "/novaspeak/",
   "display": "standalone",
   "background_color": "#2563EB",
   "theme_color": "#2563EB",
   "orientation": "portrait",
+  "lang": "vi",
+  "dir": "ltr",
+  "categories": ["education"],
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%232563EB' width='192' height='192' rx='48'/><text x='96' y='130' font-size='120' text-anchor='middle' fill='white'>🚀</text></svg>",
+      "src": "/novaspeak/icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%232563EB' width='512' height='512' rx='128'/><text x='256' y='360' font-size='320' text-anchor='middle' fill='white'>🚀</text></svg>",
+      "src": "/novaspeak/icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }
