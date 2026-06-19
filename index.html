@@ -1,3 +1,68 @@
+<!--
+================================================================================
+NOVASPEAK ENGLISH CENTER - WEBSITE SETUP GUIDE
+================================================================================
+
+✅ COMPLETED FEATURES:
+1. Font: Montserrat (headings) + Open Sans (body) - Professional & Clean
+2. Removed all underlines from headings and navigation
+3. Founder profile section with photo placeholder (founder.jpg)
+4. PWA icons (icon-192x192.png, icon-512x512.png)
+5. EmailJS integration (contact form + career form)
+6. Google Analytics (code ready, needs ID)
+7. Facebook Pixel (code ready, needs ID)
+
+📋 STEPS TO COMPLETE SETUP:
+
+1. PWA ICONS:
+   - Create icon-192x192.png (192x192 pixels)
+   - Create icon-512x512.png (512x512 pixels)
+   - Save these in the same folder as index.html
+   - Use your NovaSpeak logo as the icon
+
+2. FOUNDER IMAGE:
+   - Rename your photo to "founder.jpg"
+   - Save in the same folder as index.html
+   - Recommended size: 400x500 pixels
+
+3. EMAILJS (Free, 200 emails/month):
+   a. Go to https://www.emailjs.com
+   b. Sign up with novaspeakmientay@gmail.com
+   c. Create a Service (Gmail)
+   d. Create an Email Template with these variables:
+      - {{from_name}} - Họ tên người đăng ký
+      - {{from_phone}} - Số điện thoại
+      - {{from_email}} - Email
+      - {{target_audience}} - Đối tượng
+      - {{message}} - Lời nhắn
+      - {{to_email}} - novaspeakmientay@gmail.com
+   e. Replace in code:
+      - YOUR_EMAILJS_PUBLIC_KEY → Your Public Key
+      - YOUR_EMAILJS_SERVICE_ID → Your Service ID
+      - YOUR_EMAILJS_TEMPLATE_ID → Your Template ID
+
+4. GOOGLE ANALYTICS (Free):
+   a. Go to https://analytics.google.com
+   b. Create a property for NovaSpeak
+   c. Get Measurement ID (format: G-XXXXXXXXXX)
+   d. Replace GA_MEASUREMENT_ID in the code
+
+5. FACEBOOK PIXEL (Free):
+   a. Go to https://business.facebook.com
+   b. Create a Pixel
+   c. Get Pixel ID
+   d. Replace FB_PIXEL_ID in the code
+
+6. MANIFEST.JSON:
+   - Create a file named "manifest.json" in the same folder
+   - Copy the content from the comment in the <head> section
+
+7. SERVICE WORKER (sw.js):
+   - Create a file named "sw.js" for offline support
+   - Basic PWA functionality
+
+================================================================================
+-->
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -56,15 +121,18 @@
     </script>
 
     <!-- Google Analytics -->
+    <!-- TODO: Replace GA_MEASUREMENT_ID with your actual Google Analytics Measurement ID (format: G-XXXXXXXXXX) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
+        // TODO: Replace GA_MEASUREMENT_ID with your actual ID
         gtag('config', 'GA_MEASUREMENT_ID');
     </script>
 
     <!-- Facebook Pixel -->
+    <!-- TODO: Replace FB_PIXEL_ID with your actual Facebook Pixel ID -->
     <script>
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -74,6 +142,7 @@
         t.src=v;s=b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t,s)}(window, document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
+        // TODO: Replace FB_PIXEL_ID with your actual Pixel ID
         fbq('init', 'FB_PIXEL_ID');
         fbq('track', 'PageView');
     </script>
@@ -81,12 +150,26 @@
     <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0A1F6B">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="NovaSpeak">
     <link rel="apple-touch-icon" href="icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512x512.png">
 
-    <!-- Fonts: Sora + Plus Jakarta Sans -->
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // TODO: Replace with your actual EmailJS Public Key
+            emailjs.init("YOUR_EMAILJS_PUBLIC_KEY");
+        })();
+    </script>
+
+    <!-- Fonts: Montserrat + Open Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -100,8 +183,8 @@
             --ns-ink: #0E1320;
             --ns-slate: #5B6478;
             --ns-line: #E4E1D8;
-            --font-display: 'Sora', sans-serif;
-            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-display: 'Montserrat', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
         }
 
         * { 
@@ -150,19 +233,13 @@
             color: var(--ns-orange);
         }
 
+        /* Underline removed for cleaner look */
         .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--ns-orange);
-            transition: width 0.3s;
+            display: none;
         }
 
         .nav-link:hover::after {
-            width: 100%;
+            display: none;
         }
 
         /* ===== HERO ===== */
@@ -667,6 +744,53 @@
             background: var(--ns-blue-deep);
         }
 
+        /* Remove text-decoration from all headings */
+        h1, h2, h3, h4, h5, h6 {
+            text-decoration: none !important;
+        }
+
+        /* Ensure no underlines on links in headings */
+        h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+            text-decoration: none !important;
+            border-bottom: none !important;
+        }
+
+        /* Improved typography with Montserrat + Open Sans */
+        .hero-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(48px, 8vw, 96px);
+            line-height: 0.98;
+            letter-spacing: -0.02em;
+            color: white;
+        }
+
+        .sec-title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: clamp(28px, 4vw, 42px);
+            letter-spacing: -0.01em;
+            color: var(--ns-blue-deep);
+            text-decoration: none !important;
+        }
+
+        .tagline-main {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(28px, 5vw, 48px);
+            letter-spacing: -0.01em;
+        }
+
+        /* Smooth font rendering */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-family: var(--font-body);
+            background: var(--ns-cream);
+            color: var(--ns-ink);
+            line-height: 1.6;
+        }
+
         /* Container */
         .container {
             max-width: 1180px;
@@ -678,6 +802,38 @@
             .container { padding: 0 16px; }
         }
     </style>
+<base target="_blank">
+
+    <!-- 
+    ============================================
+    PWA MANIFEST.JSON (Create this file separately)
+    ============================================
+    {
+      "name": "NovaSpeak English Center",
+      "short_name": "NovaSpeak",
+      "description": "Học để nói. Nói để dùng. Trung tâm tiếng Anh giao tiếp hàng đầu miền Tây.",
+      "start_url": "/",
+      "display": "standalone",
+      "background_color": "#0A1F6B",
+      "theme_color": "#0A1F6B",
+      "orientation": "portrait",
+      "icons": [
+        {
+          "src": "icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "any maskable"
+        },
+        {
+          "src": "icon-512x512.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "any maskable"
+        }
+      ]
+    }
+    ============================================
+    -->
 <base target="_blank">
 </head>
 <body>
@@ -950,6 +1106,39 @@
                     </div>
                     <h4 style="font-family: var(--font-display); font-weight: 700; color: var(--ns-ink); margin-bottom: 8px;">Local Heart, Global Mind</h4>
                     <p style="font-size: 13px; color: var(--ns-slate);" data-vi="Xuất phát địa phương, hướng ra thế giới" data-en="Local roots, global mindset">Xuất phát địa phương, hướng ra thế giới</p>
+                </div>
+            </div>
+
+            <!-- Founder Profile -->
+            <div class="card scroll-reveal" style="padding: 40px; margin-bottom: 48px;">
+                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                    <div style="width: 48px; height: 48px; background: #FFF0E8; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-user-tie" style="color: var(--ns-orange); font-size: 20px;"></i>
+                    </div>
+                    <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--ns-blue-deep);" data-vi="Người sáng lập" data-en="Founder">Người sáng lập</h3>
+                </div>
+                <div style="display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
+                    <div style="flex-shrink: 0;">
+                        <img src="founder.jpg" alt="Nguyễn Văn Tân Khanh - Founder NovaSpeak" style="width: 180px; height: 220px; object-fit: cover; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                    </div>
+                    <div style="flex: 1; min-width: 250px;">
+                        <h4 style="font-family: var(--font-display); font-size: 24px; font-weight: 800; color: var(--ns-blue-deep); margin-bottom: 8px;">Nguyễn Văn Tân Khanh</h4>
+                        <p style="font-size: 15px; color: var(--ns-orange); font-weight: 600; margin-bottom: 16px;" data-vi="Nhà sáng lập & Giám đốc NovaSpeak English Center" data-en="Founder & Director of NovaSpeak English Center">Nhà sáng lập & Giám đốc NovaSpeak English Center</p>
+                        <p style="font-size: 14px; color: var(--ns-slate); line-height: 1.8; margin-bottom: 16px;" data-vi="Với tầm nhìn mang tiếng Anh giao tiếp chất lượng đến vùng Đồng bằng sông Cửu Long, anh Khanh đã xây dựng NovaSpeak từ con số 0 thành trung tâm tiếng Anh hàng đầu miền Tây với hơn 520 học viên và đội ngũ 9+ giáo viên chuyên nghiệp." data-en="With a vision to bring quality English communication to the Mekong Delta, Khanh built NovaSpeak from zero to the leading English center in the region with over 520 students and a team of 9+ professional teachers.">
+                            Với tầm nhìn mang tiếng Anh giao tiếp chất lượng đến vùng Đồng bằng sông Cửu Long, anh Khanh đã xây dựng NovaSpeak từ con số 0 thành trung tâm tiếng Anh hàng đầu miền Tây với hơn 520 học viên và đội ngũ 9+ giáo viên chuyên nghiệp.
+                        </p>
+                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                            <span style="background: #E8F0FE; color: var(--ns-blue); padding: 6px 14px; border-radius: 99px; font-size: 13px; font-weight: 600;">
+                                <i class="fas fa-graduation-cap" style="margin-right: 6px;"></i>English Immersion
+                            </span>
+                            <span style="background: #EAF6EC; color: #1F7A33; padding: 6px 14px; border-radius: 99px; font-size: 13px; font-weight: 600;">
+                                <i class="fas fa-certificate" style="margin-right: 6px;"></i>Confidence-Based Learning
+                            </span>
+                            <span style="background: #FFF0E8; color: var(--ns-orange); padding: 6px 14px; border-radius: 99px; font-size: 13px; font-weight: 600;">
+                                <i class="fas fa-users" style="margin-right: 6px;"></i>520+ Học viên
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -3092,14 +3281,80 @@
         // ==================== FORMS ====================
         document.getElementById('contact-form')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            alert(currentLang === 'vi' ? 'Cảm ơn bạn đã đăng ký! Chúng tôi sẽ liên hệ qua Email, Zalo hoặc SĐT trong vòng 24 giờ.' : 'Thank you for registering! We will contact you via Email, Zalo or Phone within 24 hours.');
-            e.target.reset();
+
+            // Get form data
+            const name = document.getElementById('contact-name').value;
+            const phone = document.getElementById('contact-phone').value;
+            const email = document.getElementById('contact-email').value;
+            const target = document.getElementById('contact-target').value;
+            const message = document.getElementById('contact-message').value;
+
+            // TODO: Replace with your actual EmailJS Service ID, Template ID, and Public Key
+            // Sign up at https://www.emailjs.com to get your credentials
+            const SERVICE_ID = 'YOUR_EMAILJS_SERVICE_ID';      // e.g., 'service_abc123'
+            const TEMPLATE_ID = 'YOUR_EMAILJS_TEMPLATE_ID';    // e.g., 'template_xyz789'
+
+            const templateParams = {
+                from_name: name,
+                from_phone: phone,
+                from_email: email || 'Không có email',
+                target_audience: target,
+                message: message || 'Không có lời nhắn',
+                to_email: 'novaspeakmientay@gmail.com'
+            };
+
+            // Send email using EmailJS
+            if (typeof emailjs !== 'undefined' && SERVICE_ID !== 'YOUR_EMAILJS_SERVICE_ID') {
+                emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
+                    .then(function(response) {
+                        console.log('Email sent successfully!', response.status, response.text);
+                        alert(currentLang === 'vi' 
+                            ? '✅ Đăng ký thành công! Chúng tôi sẽ liên hệ qua Email, Zalo hoặc SĐT trong vòng 24 giờ.' 
+                            : '✅ Registration successful! We will contact you via Email, Zalo or Phone within 24 hours.');
+                        e.target.reset();
+                    }, function(error) {
+                        console.error('Email failed to send:', error);
+                        alert(currentLang === 'vi' 
+                            ? '❌ Gửi thất bại. Vui lòng liên hệ trực tiếp qua Zalo 0707062350 hoặc thử lại sau.' 
+                            : '❌ Failed to send. Please contact directly via Zalo 0707062350 or try again later.');
+                    });
+            } else {
+                // Fallback: Show alert with instructions if EmailJS not configured
+                console.log('EmailJS not configured. Form data:', templateParams);
+                alert(currentLang === 'vi' 
+                    ? '⚠️ EmailJS chưa được cấu hình. Vui lòng đăng ký tại emailjs.com và cập nhật SERVICE_ID, TEMPLATE_ID trong code.\n\nThông tin đăng ký của bạn:\n- Tên: ' + name + '\n- SĐT: ' + phone + '\n- Email: ' + (email || 'Không có') 
+                    : '⚠️ EmailJS not configured. Please sign up at emailjs.com and update SERVICE_ID, TEMPLATE_ID in the code.\n\nYour registration info:\n- Name: ' + name + '\n- Phone: ' + phone + '\n- Email: ' + (email || 'None'));
+                e.target.reset();
+            }
         });
 
         document.getElementById('career-form')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            alert(currentLang === 'vi' ? 'Đã gửi đơn ứng tuyến! Chúng tôi sẽ liên hệ trong 3 ngày làm việc.' : 'Application submitted! We will contact you within 3 business days.');
-            e.target.reset();
+
+            // TODO: Replace with your actual EmailJS Service ID and Template ID for career applications
+            const CAREER_SERVICE_ID = 'YOUR_EMAILJS_SERVICE_ID';
+            const CAREER_TEMPLATE_ID = 'YOUR_CAREER_TEMPLATE_ID';
+
+            const formData = new FormData(e.target);
+
+            if (typeof emailjs !== 'undefined' && CAREER_SERVICE_ID !== 'YOUR_EMAILJS_SERVICE_ID') {
+                emailjs.sendForm(CAREER_SERVICE_ID, CAREER_TEMPLATE_ID, e.target)
+                    .then(function(response) {
+                        alert(currentLang === 'vi' 
+                            ? '✅ Đã gửi đơn ứng tuyến! Chúng tôi sẽ liên hệ trong 3 ngày làm việc.' 
+                            : '✅ Application submitted! We will contact you within 3 business days.');
+                        e.target.reset();
+                    }, function(error) {
+                        alert(currentLang === 'vi' 
+                            ? '❌ Gửi thất bại. Vui lòng gửi CV trực tiếp qua email: novaspeakmientay@gmail.com' 
+                            : '❌ Failed to send. Please send CV directly to: novaspeakmientay@gmail.com');
+                    });
+            } else {
+                alert(currentLang === 'vi' 
+                    ? '⚠️ EmailJS chưa được cấu hình. Vui lòng gửi CV trực tiếp qua email: novaspeakmientay@gmail.com' 
+                    : '⚠️ EmailJS not configured. Please send CV directly to: novaspeakmientay@gmail.com');
+                e.target.reset();
+            }
         });
 
         // ==================== OFFLINE DETECTION ====================
