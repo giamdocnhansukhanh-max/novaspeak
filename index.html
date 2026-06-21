@@ -821,6 +821,7 @@ NOVASPEAK ENGLISH CENTER - WEBSITE SETUP GUIDE
     -->
 <base target="_blank">
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
     <!-- Offline Indicator -->
@@ -2754,20 +2755,20 @@ NOVASPEAK ENGLISH CENTER - WEBSITE SETUP GUIDE
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                                 <div>
                                     <label style="display: block; font-size: 13px; font-weight: 600; color: var(--ns-slate); margin-bottom: 6px;" data-vi="Họ tên" data-en="Name">Họ tên</label>
-                                    <input type="text" id="contact-name" required style="width: 100%; padding: 12px 16px; border: 1px solid var(--ns-line); border-radius: 12px; font-family: var(--font-body); font-size: 14px; outline: none;" placeholder="Nguyễn Văn A">
+                                    <input type="text" id="contact-name" name="from_name" required style="width: 100%; padding: 12px 16px; border: 1px solid var(--ns-line); border-radius: 12px; font-family: var(--font-body); font-size: 14px; outline: none;" placeholder="Nguyễn Văn A">
                                 </div>
                                 <div>
                                     <label style="display: block; font-size: 13px; font-weight: 600; color: var(--ns-slate); margin-bottom: 6px;" data-vi="Số điện thoại" data-en="Phone">Số điện thoại</label>
-                                    <input type="tel" id="contact-phone" required style="width: 100%; padding: 12px 16px; border: 1px solid var(--ns-line); border-radius: 12px; font-family: var(--font-body); font-size: 14px; outline: none;" placeholder="0707xxxxxx">
+                                    <input type="tel" id="contact-phone" name="from_phone" required style="width: 100%; padding: 12px 16px; border: 1px solid var(--ns-line); border-radius: 12px; font-family: var(--font-body); font-size: 14px; outline: none;" placeholder="0707xxxxxx">
                                 </div>
                             </div>
                             <div>
                                 <label style="display: block; font-size: 13px; font-weight: 600; color: var(--ns-slate); margin-bottom: 6px;">Email</label>
-                                <input type="email" id="contact-email" style="width: 100%; padding: 12px 16px; border: 1px solid var(--ns-line); border-radius: 12px; font-family: var(--font-body); font-size: 14px; outline: none;" placeholder="email@example.com">
+                                <input type="email" id="contact-email" name="from_email" style="width: 100%; padding: 12px 16px; border: 1px solid var(--ns-line); border-radius: 12px; font-family: var(--font-body); font-size: 14px; outline: none;" placeholder="email@example.com">
                             </div>
                             <div>
                                 <label style="display: block; font-size: 13px; font-weight: 600; color: var(--ns-slate); margin-bottom: 6px;" data-vi="Đối tượng" data-en="Target">Đối tượng</label>
-                                <select id="contact-target" style="width: 100%; padding: 12px 16px; border: 1px solid var(--ns-line); border-radius: 12px; font-family: var(--font-body); font-size: 14px; outline: none;">
+                                <select id="contact-target" name="target_audience" style="width: 100%; padding: 12px 16px; border: 1px solid var(--ns-line); border-radius: 12px; font-family: var(--font-body); font-size: 14px; outline: none;">
                                     <option data-vi="Học sinh Tiểu học" data-en="Elementary Student">Học sinh Tiểu học</option>
                                     <option data-vi="Học sinh THCS" data-en="Middle School Student">Học sinh THCS</option>
                                     <option data-vi="Học viên người lớn" data-en="Adult Learner">Học viên người lớn</option>
@@ -2776,7 +2777,7 @@ NOVASPEAK ENGLISH CENTER - WEBSITE SETUP GUIDE
                             </div>
                             <div>
                                 <label style="display: block; font-size: 13px; font-weight: 600; color: var(--ns-slate); margin-bottom: 6px;" data-vi="Lời nhắn" data-en="Message">Lời nhắn</label>
-                                <textarea id="contact-message" rows="3" style="width: 100%; padding: 12px 16px; border: 1px solid var(--ns-line); border-radius: 12px; font-family: var(--font-body); font-size: 14px; outline: none; resize: none;" placeholder="Nhập lời nhắn..."></textarea>
+                                <textarea id="contact-message" name="message" rows="3" style="width: 100%; padding: 12px 16px; border: 1px solid var(--ns-line); border-radius: 12px; font-family: var(--font-body); font-size: 14px; outline: none; resize: none;" placeholder="Nhập lời nhắn..."></textarea>
                             </div>
                             <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
                                 <span data-vi="Gửi đăng ký" data-en="Submit Registration">Gửi đăng ký</span>
