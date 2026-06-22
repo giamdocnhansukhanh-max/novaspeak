@@ -3274,26 +3274,25 @@ NOVASPEAK ENGLISH CENTER - WEBSITE SETUP GUIDE
 
             // Use sendForm to send the entire form with all input fields
             if (typeof emailjs !== 'undefined') {
-                emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, e.target)
-                    .then(function(response) {
-                        console.log('Email sent successfully!', response.status, response.text);
-                        alert(currentLang === 'vi' 
-                            ? '✅ Đăng ký thành công! Chúng tôi sẽ liên hệ qua Email, Zalo hoặc SĐT trong vòng 24 giờ.' 
-                            : '✅ Registration successful! We will contact you via Email, Zalo or Phone within 24 hours.');
-                        e.target.reset();
-                    }, function(error) {
-                        console.error('Email failed to send:', error);
-                        alert(currentLang === 'vi' 
-                            ? '❌ Gửi thất bại. Vui lòng liên hệ trực tiếp qua Zalo 0707062350 hoặc thử lại sau.' 
-                            : '❌ Failed to send. Please contact directly via Zalo 0707062350 or try again later.');
-                    });
-            } else {
-                alert(currentLang === 'vi' 
-                    ? '❌ EmailJS chưa được tải. Vui lòng kiểm tra kết nối mạng và thử lại.' 
-                    : '❌ EmailJS not loaded. Please check your internet connection and try again.');
-            }
-        });
-
+                emailjs.send(SERVICE_ID, TEMPLATE_ID, {
+    from_name: document.getElementById('contact-name').value,
+    from_phone: document.getElementById('contact-phone').value,
+    from_email: document.getElementById('contact-email').value,
+    target_audience: document.getElementById('contact-target').value,
+    message: document.getElementById('contact-message').value
+})
+    .then(function(response) {
+        console.log('Email sent successfully!', response.status, response.text);
+        alert(currentLang === 'vi' 
+            ? '✅ Đăng ký thành công! Chúng tôi sẽ liên hệ qua Email, Zalo hoặc SĐT trong vòng 24 giờ.' 
+            : '✅ Registration successful! We will contact you via Email, Zalo or Phone within 24 hours.');
+        e.target.reset();
+    }, function(error) {
+        console.error('Email failed to send:', error);
+        alert(currentLang === 'vi' 
+            ? '❌ Gửi thất bại. Vui lòng liên hệ trực tiếp qua Zalo 0707062350 hoặc thử lại sau.' 
+            : '❌ Failed to send. Please contact directly via Zalo 0707062350 or try again later.');
+    });
         document.getElementById('career-form')?.addEventListener('submit', (e) => {
             e.preventDefault();
 
